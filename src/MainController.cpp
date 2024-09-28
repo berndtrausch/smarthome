@@ -20,8 +20,8 @@ LiquidCrystal_I2C mylcd(0x27,16,2);
 // Door state variable
 bool isDoorOpen = false;
 bool isLedOn = false;
-int buttonCountDoor = 0;
-int ledOnCounter = 0;
+int doorOpenCount = 0;
+int ledOnCount = 0;
 
 void setup() {
   mylcd.init();
@@ -34,17 +34,18 @@ void setup() {
   myServo.write(0);
 }
 
-void UpdateLCDDisplay(String message)
+void UpdateLCDDisplay(String message, int counter)
 {
+  mylcd.clear();
   mylcd.setCursor(0, 0);
   mylcd.print(message);
   mylcd.setCursor(0, 1);
-  mylcd.print(ledOnCounter);
-};
+  mylcd.print(counter);
+}
 
-void loop() {
+void UpdateDoorState()
+{
   // Read button state (LOW when pressed)
-  int buttonStateLeft = digitalRead(BUTTON_PIN_LEFT);
   int buttonStateRight = digitalRead(BUTTON_PIN_RIGHT);
 
   // If button is pressed, toggle the door state
@@ -55,14 +56,21 @@ void loop() {
       // Open the door by rotating the servo to 90 degrees
       myServo.write(180);
       isDoorOpen = true;
+      doorOpenCount++;
+      UpdateLCDDisplay("Opened door:", doorOpenCount);
     } else {
       // Close the door by rotating the servo to 0 degrees
       myServo.write(0);
       isDoorOpen = false;
     }
-    buttonCountDoor++;
     delay(500);  
   }
+}
+
+void UpdateLEDState()
+{
+  // Read button state (LOW when pressed)
+  int buttonStateLeft = digitalRead(BUTTON_PIN_LEFT);
 
   if (buttonStateLeft == LOW) 
   {
@@ -71,8 +79,8 @@ void loop() {
     {
       digitalWrite(LED, HIGH);
       isLedOn = true;
-      ledOnCounter++;
-      UpdateLCDDisplay("LED turned on:");
+      ledOnCount++;
+      UpdateLCDDisplay("LED turned on:", ledOnCount);
     } else {
       // Close the door by rotating the servo to 0 degrees
       digitalWrite(LED, LOW);
@@ -82,6 +90,12 @@ void loop() {
     delay(500);  
   };
   
+}
+
+void loop() {
+
+  UpdateDoorState();
+  UpdateLEDState();
 
 }
 
