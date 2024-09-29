@@ -41,7 +41,6 @@ void setup() {
   pinMode(BUTTON_PIN_RIGHT, INPUT_PULLUP);
   pinMode(LED, OUTPUT);
   pinMode(25, OUTPUT);
-  Music.Ode_to_Joy();
   myServo.attach(SERVO_PIN);
   myServo.write(0);
 }

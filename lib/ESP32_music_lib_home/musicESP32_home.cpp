@@ -243,7 +243,7 @@ void music::Ode_to_Joy(void)
     tone(buzzer_pin,tune[x],300*durt[x],0);
     //delay(300*durt[x]);
   }
-  noTone(buzzer_pin);  
+  noTone((uint8_t)buzzer_pin, TONE_CHANNEL);
 }
 /////////////////////////////////////////////
 void music::christmas(void)
@@ -253,7 +253,7 @@ void music::christmas(void)
   {
     tone(buzzer_pin, tune_christmas[x],500*durt_christmas[x],0);
     //delay(500*durt_christmas[x]);         //这里的500为控制每个音符的时长来定曲子的节奏
-    noTone(buzzer_pin);
+    noTone((uint8_t)buzzer_pin, TONE_CHANNEL);
   } 
   
 }
