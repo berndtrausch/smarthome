@@ -14,6 +14,9 @@
 #include "LcdReaderService.h"
 #include "DoorRFIDService.h"
 
+// #include <WiFi.h>
+// #include <HTTPClient.h>
+
 // Define GPIO pins
 #define BUTTON_PIN_LEFT 16  // Change to your Button 2 pin (GPIO_NUM_X)
 #define BUTTON_PIN_RIGHT 27
@@ -25,6 +28,11 @@ Servo myServo;
 LiquidCrystal_I2C mylcd(0x27,16,2);
 music Music(25);
 MFRC522 mfrc522(0x28);
+
+// String ssid = "";
+// String password = "";
+// String postUrl = "https://";
+// String getUrl = "https://";
 
 // Update Door state variables
 bool isDoorOpen = false;
@@ -52,14 +60,20 @@ void setup() {
   myServo.attach(SERVO_PIN);
   myServo.write(0);
   mylcd.setCursor(0, 0);
-  mylcd.print("Card");
+  // mylcd.print("Card");
+
+  // WiFi.begin(ssid, password);
+  // while (WiFi.status() != WL_CONNECTED) {
+  //   delay(500);
+  // }
+  // mylcd.print("WiFi connected!");
 }
 
 void loop() {
 
-  // UpdateDoorState(BUTTON_PIN_RIGHT, myServo, isDoorOpen, doorOpenCount, mylcd);
-  UpdateDoorStateRFID();
+  UpdateDoorState(BUTTON_PIN_RIGHT, myServo, isDoorOpen, doorOpenCount, mylcd);
+  // UpdateDoorStateRFID();
   UpdateLEDState(BUTTON_PIN_LEFT, LED, isLedOn, ledOnCount, mylcd);
-  UpdateDoorBellState(BUTTON_PIN_RIGHT, bellRingCount, mylcd, isDoorBellRinging, Music);
+  // UpdateDoorBellState(BUTTON_PIN_RIGHT, bellRingCount, mylcd, isDoorBellRinging, Music);
 }
 
