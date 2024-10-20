@@ -48,8 +48,8 @@ void setup() {
 void loop() {
 
   UpdateHouseLockState(mfrc522, isHouseLocked, mylcd, password);
-  UpdateDoorState(BUTTON_PIN_RIGHT, myServo, isDoorOpen, doorOpenCount, mylcd);
-  UpdateLEDState(BUTTON_PIN_LEFT, LED, isLedOn, ledOnCount, mylcd);
+  UpdateDoorState(BUTTON_PIN_RIGHT, myServo, isDoorOpen, doorOpenCount, mylcd, isHouseLocked);
+  UpdateLEDState(BUTTON_PIN_LEFT, LED, isLedOn, ledOnCount, mylcd, isHouseLocked);
 
 }
 
